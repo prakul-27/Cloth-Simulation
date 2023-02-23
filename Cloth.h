@@ -19,23 +19,35 @@ public:
 
     // set initial state of the cloth 
     Cloth();
+
+
+
     // simulate the Cloth movement
     void Simulate();
     // compute net gravitational force on mesh particle (i, j)
     Eigen::Vector3d computeNetGravitationalForce(int i, int j);
     // compute net internal force due to springs on mesh particle (i, j)
     Eigen::Vector3d computeNetInternalForce(int i, int j);
+    
     // accumulate net internal forces
     void accumulateNetInternalForces();
     // compute net damping force on mesh particle (i, j)
     Eigen::Vector3d computeNetDampingForce(int i, int j);
     // compute net viscous force on mesh particle (i, j)
     Eigen::Vector3d computeNetViscousForce(int i, int j);
+    
     // compute unit normal on the surface at point (i,j)
     Eigen::Vector3d computeNormal(int i, int j);
     void computeNormal();    
+
+
+
     // render the mesh onto the screen
     void Draw();
+
+    //-----new added--------
+   // void ApplyEulerMethod(void);
+	//void ApplyDynamicInverseProcedure(void);
 
     // debugging functions
     void printState(int time);

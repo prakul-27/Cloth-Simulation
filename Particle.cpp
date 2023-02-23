@@ -24,9 +24,15 @@ Particle::Particle() {
     netForce.setZero();
 }
 
+//----newly added-------
+
 // render on screen
 void Particle::Draw() {
-
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+	glVertex3f(position[0], position[1], position[2]);
+	glEnd();
 }
 
 // zero the forces acting on it

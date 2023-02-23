@@ -3,7 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/vec3.hpp>
 #include <glm/geometric.hpp>
-#include <Eigen/Dense>
+//in windows #include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 #define PARTICLE_MASS 1.0f
 
@@ -17,6 +18,10 @@ public:
 
     Eigen::Vector3d position;
     Eigen::Vector3d velocity;
+
     Eigen::Vector3d normal;
+    
     Eigen::Vector3d netForce;    
+    
+    Eigen::Vector2f texturecoord;
 }; 

@@ -1,6 +1,8 @@
 #include "Cloth.h"
+#include <GL/glut.h>
 
 Cloth::Cloth() {
+
     // Particles
     particles.assign(MESH_SIZE, std::vector<Particle>(MESH_SIZE));    
     for (int i=0; i<MESH_SIZE; i++) {
@@ -58,6 +60,25 @@ Cloth::Cloth() {
     
 }
 
+
+void Cloth::Draw(void){
+
+    	// Draw springs
+	for (int i = 0; i < structural_springs.size(); i++)
+		structural_springs[i].Draw();
+	for (int i = 0; i < shear_springs.size(); i++)
+		shear_springs[i].Draw();
+	for (int i = 0; i < flexion_springs.size(); i++)
+		flexion_springs[i].Draw();
+
+	// Draw particles
+	for (int i = 0; i < MESH_SIZE; i++) {
+		for (int j = 0; j < MESH_SIZE; j++)
+			particles[i][j].Draw();
+	}
+
+}
+
 // void Cloth::Simulate(float T, float delta_t) {
 //     float t = 0;
 //     while(t < T) {
@@ -69,7 +90,7 @@ Cloth::Cloth() {
 // }
 
 void Cloth::Simulate() {
-    float delta_t = 0.0001f;
+    float delta_t = 0.01f;
     // tmp update to particles
     std::vector<std::vector<std::pair<Eigen::Vector3d, Eigen::Vector3d>>> tmp;
     // assign empty pairs
@@ -98,20 +119,22 @@ void Cloth::Simulate() {
         }
     }
     // fix two points
-    particles[MESH_SIZE-1][0].position = particles[0][0].velocity = Eigen::Vector3d(.0f, .0f, .0f);
-    particles[MESH_SIZE-1][MESH_SIZE-1].position = Eigen::Vector3d(STRUCTURAL_NATURAL_LENGTH*MESH_SIZE, .0f, .0f);
-    particles[MESH_SIZE-1][MESH_SIZE-1].velocity = Eigen::Vector3d(.0f, .0f, .0f);
+    // particles[0][0].position = particles[0][0].velocity = Eigen::Vector3d(.0f, .0f, .0f);
+    // particles[0][MESH_SIZE-1].position = Eigen::Vector3d(STRUCTURAL_NATURAL_LENGTH*MESH_SIZE, .0f, .0f);
+    // particles[0][MESH_SIZE-1].velocity = Eigen::Vector3d(.0f, .0f, .0f);
     // update state
     for (int i=0; i<MESH_SIZE; i++) {
         for (int j=0; j<MESH_SIZE; j++) {
+            if (i == MESH_SIZE-1 && j == 0) continue;
+            if (i == MESH_SIZE-1 && j == MESH_SIZE-1) continue;
             particles[i][j].position = tmp[i][j].first;
             particles[i][j].velocity = tmp[i][j].second;
         }
-    }        
-    // // update the surface normals for next iteration
-    // computeNormal();
+    }         
+    // update the surface normals for next iteration
+    //computeNormal();
 
-    // // clear the net force
+    // clear the net force
     // for (int i=0; i<MESH_SIZE; i++) {
     //     for (int j=0; j<MESH_SIZE; j++) {            
     //         particles[i][j].netForce.setZero();
@@ -119,7 +142,7 @@ void Cloth::Simulate() {
     // }
 
     // // accumulate internal forces
-    // accumulateNetInternalForces();
+    // // accumulateNetInternalForces();
 
     // // accumulate external forces
     // for (int i=0; i<MESH_SIZE; i++) {
@@ -127,21 +150,21 @@ void Cloth::Simulate() {
     //         particles[i][j].netForce += computeNetGravitationalForce(i, j);
     //         // std::cout << particles[i][j].position[0] << ' ' << particles[i][j].position[1] << ' ' << particles[i][j].position[2] << std::endl;
     //         if(std::isnan(particles[i][j].netForce[0]) || std::isnan(particles[i][j].netForce[1]) || std::isnan(particles[i][j].netForce[2])) {
-    //             std::cout << "i, j has nan" << std::endl;
-    //             std::cout << i << ' ' << j  << std::endl;
-    //             std::cout << particles[i][j].netForce[0] << ' ' << particles[i][j].netForce[1] << ' ' << particles[i][j].netForce[2] << std::endl;
+    //             //std::cout << "i, j has nan" << std::endl;
+    //             //std::cout << i << ' ' << j  << std::endl;
+    //             //std::cout << particles[i][j].netForce[0] << ' ' << particles[i][j].netForce[1] << ' ' << particles[i][j].netForce[2] << std::endl;
     //         }
     //         if(std::isinf(particles[i][j].netForce[0]) || std::isinf(particles[i][j].netForce[1]) || std::isinf(particles[i][j].netForce[2])) {
-    //             std::cout << "i, j has inf" << std::endl;
-    //             std::cout << i << ' ' << j  << std::endl;
-    //             std::cout << particles[i][j].netForce[0] << ' ' << particles[i][j].netForce[1] << ' ' << particles[i][j].netForce[2] << std::endl;
+    //             //std::cout << "i, j has inf" << std::endl;
+    //             //std::cout << i << ' ' << j  << std::endl;
+    //             //std::cout << particles[i][j].netForce[0] << ' ' << particles[i][j].netForce[1] << ' ' << particles[i][j].netForce[2] << std::endl;
     //         }
     //     }
     // }    
 
     // // fix two points
-    // particles[MESH_SIZE-1][0].netForce.setZero();
-    // particles[MESH_SIZE-1][MESH_SIZE-1].netForce.setZero();
+    // // particles[MESH_SIZE-1][0].netForce.setZero();
+    // // particles[MESH_SIZE-1][MESH_SIZE-1].netForce.setZero();
 
     // // update simulation state
     // for (int i=0; i<MESH_SIZE; i++) {
@@ -249,9 +272,6 @@ Eigen::Vector3d Cloth::computeNormal(int i, int j) {
 //     }
 // }
 
-void Cloth::Draw() {
-
-}
 
 void Cloth::printState(int time) {
     float x, y, z;

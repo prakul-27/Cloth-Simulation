@@ -1,0 +1,4 @@
+/home/cs5190430/minor_project/Cloth-Simulation/build/CMakeFiles/minor.dir
+/home/cs5190430/minor_project/Cloth-Simulation/build/CMakeFiles/Main.dir
+/home/cs5190430/minor_project/Cloth-Simulation/build/CMakeFiles/edit_cache.dir
+/home/cs5190430/minor_project/Cloth-Simulation/build/CMakeFiles/rebuild_cache.dir
