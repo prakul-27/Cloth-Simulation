@@ -1,0 +1,69 @@
+{
+    "hylc": {
+        "enabled": true,
+        "material": "hylcmaterials/fit.json"
+    },
+    "disable": ["remeshing"],
+    "implicit": true,
+    // "explicit_massdamping": 1e-1, // maybe even lower
+    // "explicit_stretchdamping": 1e-2, // stiffest term
+    // "explicit_massdamping": 1e-1, // maybe even lower
+    // "explicit_stretchdamping": 10.0, // stiffest term
+
+    "frame_time": 1.6867,
+    "frame_steps": 40,//50
+    "end_time": 10,
+    "cloths": [{
+       // "mesh": "meshes/square.obj",
+        "mesh": "meshes/hylc_square.obj",
+        //"mesh": "meshes/hylc_square1.obj",
+        //"mesh": "meshes/mass_spring_model.obj",
+
+        "transform": {"scale": 0.3, "translate": [-0.15, -0.15, 0.0]},
+        "materials": [{"data": "materials/gray-interlock.json",
+                       //"thicken": 1, "damping": 1.35e-2}] // 1.2e-2
+                       "thicken": 1, "damping": 1.0}] // 1.2e-2
+                      //  "thicken": 1, "damping": 1.0}] // 1.2e-2
+                      //  ,"remeshing": {
+                      //      "refine_angle": 0.3,
+                      //      "refine_compression": 0.01,
+                      //      "refine_velocity": 0.5,
+                      //      "size": [3e-3, 15e-3],//40
+                      //      "boundary_detail_mult": 0.5, //0.25
+                      //      "aspect_min": 0.2
+                      //  }
+    }],
+   // "wind": {"density": 5}, //6.5
+
+    // "handlespheres": [{
+    //     "radius": 0.01,
+    //     "center": [-0.1, -0.1, 0]
+    // },{
+    //     "radius": 0.01,
+    //     "center": [-0.1, 0.1, 0]
+    // }],
+    //"obstacles": [{
+      //  "mesh": "meshes/sphere.obj",
+        //"transform": {"scale": 0.03,"translate": [0.0,0.0,-0.04]}
+    //}],
+      //orientation -1
+    // "handles": [{"nodes": [2,3]}],
+    // "gravity": [ 0,-9.81,0],
+
+      // //orientaion -2
+      "handles": [{"nodes": [1,2,0,3]}],
+      "gravity": [ 0,0,-9.81],
+
+   // "obs_friction": 0.052
+   // ,
+    "magic": {
+         //"repulsion_thickness": 1e-4, 
+        "repulsion_thickness": 1e-3, 
+        // "repulsion_thickness": 5e-3, 
+        "handle_stiffness": 1e5,
+        "collision_stiffness": 1e6,
+	      "relax_initial_state": false
+         //  ,"fixed_high_res_mesh": true
+    }
+   
+}
